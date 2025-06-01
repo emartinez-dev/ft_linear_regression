@@ -3,18 +3,7 @@
 import argparse
 import os
 
-def main(mileage: int) -> None:
-    """
-    Calculates and prints the estimated price of a car based on its mileage using linear regression
-    parameters.
-
-    :param mileage: The mileage of the car for which to estimate the price.
-    :type mileage: int
-    """
-    t0 = float(os.getenv("FT_LR_THETA_0", "0.0"))
-    t1 = float(os.getenv("FT_LR_THETA_1", "0.0"))
-
-    print(estimate_price(t0, t1, mileage))
+from settings import T0_ENVAR_NAME, T1_ENVAR_NAME
 
 def estimate_price(t0: float, t1: float, mileage: int) -> float:
     """
@@ -30,6 +19,21 @@ def estimate_price(t0: float, t1: float, mileage: int) -> float:
     :rtype: float
     """
     return t0 + t1 * mileage
+
+
+def main(mileage: int) -> None:
+    """
+    Calculates and prints the estimated price of a car based on its mileage using linear regression
+    parameters.
+
+    :param mileage: The mileage of the car for which to estimate the price.
+    :type mileage: int
+    """
+    t0 = float(os.getenv(T0_ENVAR_NAME, "0.0"))
+    t1 = float(os.getenv(T1_ENVAR_NAME, "0.0"))
+
+    print(estimate_price(t0, t1, mileage))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
