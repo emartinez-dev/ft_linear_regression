@@ -29,23 +29,24 @@ class Car:
         return f"Car - km: {self.km} -> price: {self.price}"
 
 
-def read_csv(path: Path) -> List[Car]:
+def read_csv(path: str) -> List[Car]:
     """
     Reads a CSV file containing car data and returns a list of Car objects.
 
     :param path: The file path of the CSV file that will be read
-    :type path: Path
+    :type path: str
     :return: The list of Cars parsed from the CSV
     :rtype: List[Car]
     """
 
-    with open(path, "r", encoding="utf8") as csv_file:
+    file_path = Path(path)
+    with open(file_path, "r", encoding="utf8") as csv_file:
         cars_csv = reader(csv_file)
 
         try:
             headings = next(cars_csv)
         except StopIteration as exc:
-            raise ValueError(f"{path} is empty") from exc
+            raise ValueError(f"{file_path} is empty") from exc
 
         assert headings[0] == "km", "First column must be 'km'"
         assert headings[1] == "price", "Second column must be 'price'"
