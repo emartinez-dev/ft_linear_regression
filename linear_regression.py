@@ -41,7 +41,11 @@ def read_csv(path: Path) -> List[Car]:
 
     with open(path, "r", encoding="utf8") as csv_file:
         cars_csv = reader(csv_file)
-        headings = next(cars_csv)
+
+        try:
+            headings = next(cars_csv)
+        except StopIteration as exc:
+            raise ValueError(f"{path} is empty") from exc
 
         assert headings[0] == "km", "First column must be 'km'"
         assert headings[1] == "price", "Second column must be 'price'"
@@ -129,9 +133,12 @@ def main(learning_rate: float, epochs: int, normalize_km: bool) -> None:
 
     cars = read_csv(Path(CSV_PATH))
     n_cars = len(cars)
+    assert n_cars > 0, "Data for cars not found on the dataset"
     min_km, max_km = get_minmax(cars)
 
     if normalize_km:
+        if max_km - min_km == 0.0:
+            raise ValueError(f"Invalid minmax range for normalization: [{min_km}, {max_km})]")
         cars = normalize_cars(cars)
 
     t0 = 0.0

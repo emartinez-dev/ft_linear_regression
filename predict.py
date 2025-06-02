@@ -5,6 +5,7 @@ import os
 
 from settings import T0_ENVAR_NAME, T1_ENVAR_NAME
 
+
 def estimate_price(t0: float, t1: float, mileage: float) -> float:
     """
     Estimates the price of a car based on a linear regression model.
