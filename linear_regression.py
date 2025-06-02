@@ -61,6 +61,7 @@ def main(learning_rate: float, epochs: int) -> None:
     """
 
     cars = read_csv(Path(CSV_PATH))
+    n_cars = len(cars)
 
     t0 = 0.0
     t1 = 0.0
@@ -75,8 +76,8 @@ def main(learning_rate: float, epochs: int) -> None:
             accum_error_t0 += error_t0
             accum_error_t1 += error_t1
 
-        temp_t0 = learning_rate * (1 / epochs) * accum_error_t0
-        temp_t1 = learning_rate * (1 / epochs) * accum_error_t1
+        temp_t0 = learning_rate * (1 / n_cars) * accum_error_t0
+        temp_t1 = learning_rate * (1 / n_cars) * accum_error_t1
 
         t0 -= temp_t0
         t1 -= temp_t1
@@ -89,7 +90,7 @@ def main(learning_rate: float, epochs: int) -> None:
         "Optimized theta values:",
         f"- t0: {t0}",
         f"- t1: {t1}\n",
-        "Export them with:",
+        "Export them for the 'predictor' with:",
         f"export {T0_ENVAR_NAME}={t0}",
         f"export {T1_ENVAR_NAME}={t1}",
         sep="\n",
